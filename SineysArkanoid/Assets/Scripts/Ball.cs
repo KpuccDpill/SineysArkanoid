@@ -1,4 +1,6 @@
+using System;
 using UnityEngine;
+using Random = UnityEngine.Random;
 
 [RequireComponent(typeof(Rigidbody2D))]
 public class Ball : MonoBehaviour
@@ -6,7 +8,7 @@ public class Ball : MonoBehaviour
     private Rigidbody2D _rigidbody2D;
     private Vector3 _direction;
 
-    public float Speed;
+    public float speed;
 
     private void Awake()
     {
@@ -16,28 +18,39 @@ public class Ball : MonoBehaviour
 
     private void OnCollisionEnter2D(Collision2D collision)
     {
+        if (collision.collider.GetComponent<Destroyer>() != null)
+        {
+            gameObject.SetActive(false);
+            
+            return;
+        }
+        
+        var collisionContactBounds = collision.GetContact(0).collider.bounds;
+
         if (collision.collider.GetComponent<CaretMovement>() != null)
         {
+            var halfSizeX = collisionContactBounds.extents.x;
             var collisionContact = collision.GetContact(0);
-            var collisionContactBounds = collision.GetContact(0).collider.bounds;
+            var contactCenterDeltaX = collisionContact.point.x - collisionContactBounds.center.x;
 
-            var contactCenterDelta = collisionContact.point.x - collisionContactBounds.center.x;
-            var halfSize = collisionContactBounds.size.x / 2f;
-
-            var directionY = Mathf.Max(0.1f, 1 - Mathf.Abs(contactCenterDelta / halfSize));
-            var directionX = contactCenterDelta / halfSize;
+            var directionY = Mathf.Max(0.1f, 1 - Mathf.Abs(contactCenterDeltaX / halfSizeX));
+            var directionX = contactCenterDeltaX / halfSizeX;
 
             _direction = new Vector3(directionX, directionY);
+
+            return;
         }
-        else if (collision.collider.GetComponent<TopWall>() != null)
+
+        var closestPoint = collisionContactBounds.ClosestPoint(transform.position);
+
+        if (Math.Abs(closestPoint.y - collisionContactBounds.min.y) < 0.001f ||
+            Math.Abs(closestPoint.y - collisionContactBounds.max.y) < 0.001f)
         {
             _direction = new Vector3(_direction.x, -_direction.y);
         }
-        else if (collision.collider.GetComponent<Destroyer>() != null)
-        {
-            gameObject.SetActive(false);
-        }
-        else
+        
+        if (Math.Abs(closestPoint.x - collisionContactBounds.min.x) < 0.001f ||
+            Math.Abs(closestPoint.x - collisionContactBounds.max.x) < 0.001f)
         {
             _direction = new Vector3(-_direction.x, _direction.y);
         }
@@ -45,6 +58,6 @@ public class Ball : MonoBehaviour
 
     private void FixedUpdate()
     {
-        _rigidbody2D.MovePosition(transform.position + _direction.normalized * Speed);
+        _rigidbody2D.MovePosition(transform.position + _direction.normalized * speed);
     }
 }
