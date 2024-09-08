@@ -1,6 +1,6 @@
-using System;
+// using System;
+
 using UnityEngine;
-using Random = UnityEngine.Random;
 
 [RequireComponent(typeof(Rigidbody2D))]
 public class Ball : MonoBehaviour
@@ -43,16 +43,23 @@ public class Ball : MonoBehaviour
 
         var closestPoint = collisionContactBounds.ClosestPoint(transform.position);
 
-        if (Math.Abs(closestPoint.y - collisionContactBounds.min.y) < 0.001f ||
-            Math.Abs(closestPoint.y - collisionContactBounds.max.y) < 0.001f)
+        if (Mathf.Abs(closestPoint.y - collisionContactBounds.min.y) < 0.001f ||
+            Mathf.Abs(closestPoint.y - collisionContactBounds.max.y) < 0.001f)
         {
             _direction = new Vector3(_direction.x, -_direction.y);
         }
         
-        if (Math.Abs(closestPoint.x - collisionContactBounds.min.x) < 0.001f ||
-            Math.Abs(closestPoint.x - collisionContactBounds.max.x) < 0.001f)
+        if (Mathf.Abs(closestPoint.x - collisionContactBounds.min.x) < 0.001f ||
+            Mathf.Abs(closestPoint.x - collisionContactBounds.max.x) < 0.001f)
         {
             _direction = new Vector3(-_direction.x, _direction.y);
+        }
+
+        var plank = collision.gameObject.GetComponent<Plank>();
+        
+        if (plank != null)
+        {
+            plank.gameObject.SetActive(false);
         }
     }
 
