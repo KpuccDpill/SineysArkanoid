@@ -9,12 +9,15 @@ public class Level
     private List<Plank> _planks;
     private List<Ball> _balls;
 
-    public event Action OnLevelComplete;
+    private NextLevelDialog _nextLevelDialog;
+    private GameResultDialog _gameResultDialog;
 
-    public Level(Caret caret, PlayerStats playerStats)
+    public Level(Caret caret, PlayerStats playerStats, NextLevelDialog nextLevelDialog, GameResultDialog gameResultDialog)
     {
         _caret = caret;
         _playerStats = playerStats;
+        _nextLevelDialog = nextLevelDialog;
+        _gameResultDialog = gameResultDialog;
     }
 
     public void InitLevel(List<Plank> planks)
@@ -50,8 +53,9 @@ public class Level
 
         if (_playerStats.AttemptsLeft == 0)
         {
-            UnsubscribeEvents();    
-            SceneManager.LoadScene(SceneName.MainMenuScene);
+            FinishLevel();    
+            
+            _gameResultDialog.Show();
         }
         else
         {
@@ -61,13 +65,21 @@ public class Level
 
     private void HandleLevelComplete()
     {
-        UnsubscribeEvents();
-        SceneManager.LoadScene(SceneName.GameScene);
+        FinishLevel();
+
+        _nextLevelDialog.Show();
     }
 
-    private void UnsubscribeEvents()
+    private void FinishLevel()
     {
         Plank.OnPlankDestroyed -= HandlePlankDestroy;
         Ball.OnBallDestroy -= HandleBallDestroy;
+        
+        _caret.gameObject.SetActive(false);
+
+        foreach (var ball in _balls)
+        {
+            ball.gameObject.SetActive(false);
+        }
     }
 }

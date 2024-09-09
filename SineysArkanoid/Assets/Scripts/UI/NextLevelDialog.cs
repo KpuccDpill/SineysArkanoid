@@ -1,4 +1,5 @@
 using Reflex.Attributes;
+using TMPro;
 using UnityEngine;
 using UnityEngine.SceneManagement;
 using UnityEngine.UI;
@@ -6,19 +7,20 @@ using UnityEngine.UI;
 public class NextLevelDialog : MonoBehaviour
 {
     [SerializeField] private Button nextLevelButton;
+    [SerializeField] private TextMeshProUGUI congratsText;
 
-    [Inject] private Level _level;
+    [Inject] private PlayerStats _playerStats;
 
     private void Awake()
     {
         nextLevelButton.onClick.AddListener(StartNextLevel);
-        
-        _level.OnLevelComplete += Show;
     }
 
-    private void Show()
+    public void Show()
     {
-        throw new System.NotImplementedException();
+        gameObject.SetActive(true);
+
+        congratsText.text = $"Поздравляем! Ваш результат - {_playerStats.Points} очков. Продолжайте в том же духе!";
     }
 
     private void StartNextLevel()
