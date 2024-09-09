@@ -1,8 +1,10 @@
+using System.Collections.Generic;
 using UnityEngine;
 
 public class LevelSetup : MonoBehaviour
 {
     [SerializeField] private Plank plankPrefab;
+    [SerializeField] private Caret caret;
 
     private const float PlankSizeX = 5;
     private const float PlankSizeY = 2;
@@ -11,16 +13,18 @@ public class LevelSetup : MonoBehaviour
     {
         int[][] cells = new int[][]
         {
-            new[] { 1, 0, 1, 1, 1, 1, 1 },
-            new[] { 1, 1, 0, 1, 1, 1, 1 },
-            new[] { 1, 1, 0, 1, 1, 1 },
-            new[] { 1, 1, 0, 0, 1, 1 },
-            new[] { 1, 0, 1, 1, 0, 1, 1 },
-            new[] { 1, 1, 0, 0, 1, 1, 1 },
+            new[] { 0 },
+            new[] { 0 },
+            new[] { 0 },
+            new[] { 0 },
+            new[] { 0 },
+            new[] { 1 },
         };
 
         var plankXSize = plankPrefab.transform.localScale.x * PlankSizeX;
         var plankYSize = -plankPrefab.transform.localScale.y * PlankSizeY;
+
+        List<Plank> planks = new List<Plank>();
 
         for (int i = 0; i < cells.Length; i++)
         {
@@ -31,10 +35,15 @@ public class LevelSetup : MonoBehaviour
             {
                 if (cells[i][j] == 1)
                 {
-                    Instantiate(plankPrefab, new Vector3(firstPlankPosX + plankXSize * j, plankPosY + transform.position.y),
-                        Quaternion.identity, transform);
+                    Plank plank = Instantiate(plankPrefab, new Vector3(firstPlankPosX + plankXSize * j, 
+                            plankPosY + transform.position.y), Quaternion.identity, transform);
+
+                    planks.Add(plank);
                 }
             }
         }
+
+        Level newLevel = new Level();
+        newLevel.InitLevel(planks, caret);
     }
 }

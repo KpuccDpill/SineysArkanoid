@@ -3,6 +3,7 @@ using UnityEngine;
 public class Caret : MonoBehaviour
 {
     [SerializeField] private Ball firstBall;
+    public Ball FirstBall => firstBall;
 
     private Vector3 _defaultFirstBallPosition;
 
@@ -14,15 +15,20 @@ public class Caret : MonoBehaviour
 
     private void Update()
     {
-        if (firstBall != null)
+        if (!firstBall.IsActive)
         {
             firstBall.transform.localPosition = _defaultFirstBallPosition;
             
             if (Input.GetMouseButtonDown(0))
             {
                 firstBall.Activate();
-                firstBall = null;
             }
         }
+    }
+
+    public void ResetFirstBall()
+    {
+        firstBall.gameObject.SetActive(true);
+        firstBall.ResetBall();
     }
 }

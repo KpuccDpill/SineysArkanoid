@@ -1,3 +1,4 @@
+using System;
 using UnityEngine;
 
 [RequireComponent(typeof(Rigidbody2D))]
@@ -6,14 +7,17 @@ public class Ball : MonoBehaviour
     [SerializeField] private float speed;
     
     private bool _isActive;
+    public bool IsActive => _isActive;
+    
     private Rigidbody2D _rigidbody2D;
     private Vector3 _direction;
     private bool _changedDirectionThisFrame;
 
+    public static event Action<Ball> OnBallDestroy;
+
     private void Awake()
     {
         _rigidbody2D = GetComponent<Rigidbody2D>();
-        _direction = new Vector3(Random.Range(-1f, 1f), Random.Range(-1f, 1f), 0);
     }
 
     private void OnCollisionEnter2D(Collision2D collision)
@@ -24,6 +28,7 @@ public class Ball : MonoBehaviour
         if (collision.collider.GetComponent<Destroyer>() != null)
         {
             gameObject.SetActive(false);
+            OnBallDestroy?.Invoke(this);
             
             return;
         }
@@ -85,7 +90,7 @@ public class Ball : MonoBehaviour
         
         if (plank != null)
         {
-            plank.gameObject.SetActive(false);
+            plank.DestroyPlank();
         }
     }
 
@@ -102,6 +107,10 @@ public class Ball : MonoBehaviour
     {
         _isActive = true;
         _direction = new Vector3(1, 1);
-        transform.parent = null;
+    }
+
+    public void ResetBall()
+    {
+        _isActive = false;
     }
 }
