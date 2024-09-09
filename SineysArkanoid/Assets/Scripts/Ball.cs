@@ -1,14 +1,15 @@
-// using System;
-
 using UnityEngine;
 
 [RequireComponent(typeof(Rigidbody2D))]
 public class Ball : MonoBehaviour
 {
+    public bool IsActive { get; set; }
+    
+    [SerializeField] private float speed;
+    
     private Rigidbody2D _rigidbody2D;
     private Vector3 _direction;
-
-    public float speed;
+    private bool _changedDirectionThisFrame;
 
     private void Awake()
     {
@@ -27,7 +28,7 @@ public class Ball : MonoBehaviour
         
         var collisionContactBounds = collision.GetContact(0).collider.bounds;
 
-        if (collision.collider.GetComponent<CaretMovement>() != null)
+        if (collision.collider.GetComponent<Caret>() != null)
         {
             var halfSizeX = collisionContactBounds.extents.x;
             var collisionContact = collision.GetContact(0);
@@ -41,18 +42,41 @@ public class Ball : MonoBehaviour
             return;
         }
 
-        var closestPoint = collisionContactBounds.ClosestPoint(transform.position);
+        if (!_changedDirectionThisFrame)
+        {
+            var closestPoint = collisionContactBounds.ClosestPoint(transform.position);
 
-        if (Mathf.Abs(closestPoint.y - collisionContactBounds.min.y) < 0.001f ||
-            Mathf.Abs(closestPoint.y - collisionContactBounds.max.y) < 0.001f)
-        {
-            _direction = new Vector3(_direction.x, -_direction.y);
-        }
-        
-        if (Mathf.Abs(closestPoint.x - collisionContactBounds.min.x) < 0.001f ||
-            Mathf.Abs(closestPoint.x - collisionContactBounds.max.x) < 0.001f)
-        {
-            _direction = new Vector3(-_direction.x, _direction.y);
+            if (_direction.y > 0)
+            {
+                if (Mathf.Abs(closestPoint.y - collisionContactBounds.min.y) < 0.0001f)
+                {
+                    _direction = new Vector3(_direction.x, -_direction.y);
+                }
+            }
+            else
+            {
+                if (Mathf.Abs(closestPoint.y - collisionContactBounds.max.y) < 0.0001f)
+                {
+                    _direction = new Vector3(_direction.x, -_direction.y);
+                }
+            }
+
+            if (_direction.x > 0)
+            {
+                if (Mathf.Abs(closestPoint.x - collisionContactBounds.min.x) < 0.0001f)
+                {
+                    _direction = new Vector3(-_direction.x, _direction.y);
+                }
+            }
+            else
+            {
+                if (Mathf.Abs(closestPoint.x - collisionContactBounds.max.x) < 0.0001f)
+                {
+                    _direction = new Vector3(-_direction.x, _direction.y);
+                }
+            }
+
+            _changedDirectionThisFrame = true;
         }
 
         var plank = collision.gameObject.GetComponent<Plank>();
@@ -65,6 +89,10 @@ public class Ball : MonoBehaviour
 
     private void FixedUpdate()
     {
-        _rigidbody2D.MovePosition(transform.position + _direction.normalized * speed);
+        if (IsActive)
+        {
+            _rigidbody2D.MovePosition(transform.position + _direction.normalized * speed);
+            _changedDirectionThisFrame = false;
+        }
     }
 }

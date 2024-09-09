@@ -11,12 +11,12 @@ public class LevelSetup : MonoBehaviour
     {
         int[][] cells = new int[][]
         {
-            new[] { 1, 0, 1, 1, 1, 1 },
-            new[] { 1, 1, 0, 1, 1, 1 },
+            new[] { 1, 0, 1, 1, 1, 1, 1 },
+            new[] { 1, 1, 0, 1, 1, 1, 1 },
             new[] { 1, 1, 0, 1, 1, 1 },
             new[] { 1, 1, 0, 0, 1, 1 },
-            new[] { 1, 0, 1, 1, 0, 1 },
-            new[] { 1, 1, 0, 0, 1, 1 },
+            new[] { 1, 0, 1, 1, 0, 1, 1 },
+            new[] { 1, 1, 0, 0, 1, 1, 1 },
         };
 
         var plankXSize = plankPrefab.transform.localScale.x * PlankSizeX;
