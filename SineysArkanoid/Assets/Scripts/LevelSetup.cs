@@ -1,10 +1,12 @@
 using System.Collections.Generic;
+using Reflex.Attributes;
 using UnityEngine;
 
 public class LevelSetup : MonoBehaviour
 {
     [SerializeField] private Plank plankPrefab;
-    [SerializeField] private Caret caret;
+
+    [Inject] private Caret _caret; 
 
     private const float PlankSizeX = 5;
     private const float PlankSizeY = 2;
@@ -44,6 +46,6 @@ public class LevelSetup : MonoBehaviour
         }
 
         Level newLevel = new Level();
-        newLevel.InitLevel(planks, caret);
+        newLevel.InitLevel(planks, _caret);
     }
 }

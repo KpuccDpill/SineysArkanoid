@@ -1,10 +1,10 @@
 using System.Collections.Generic;
-using UnityEngine;
+using Reflex.Attributes;
 
 public class Level
 {
     private List<Plank> _planks;
-    private Caret _caret;
+    [Inject] private Caret _caret;
     private List<Ball> _balls;
     private int _attemptsLeft;
     
