@@ -1,6 +1,6 @@
 using System;
 using System.Collections.Generic;
-using Reflex.Attributes;
+using UnityEngine.SceneManagement;
 
 public class Level
 {
@@ -8,14 +8,18 @@ public class Level
     private Caret _caret;
     private List<Plank> _planks;
     private List<Ball> _balls;
-    
-    private const int PointsPerPlank = 100;
 
-    public void InitLevel(List<Plank> planks, Caret caret, PlayerStats playerStats)
+    public event Action OnLevelComplete;
+
+    public Level(Caret caret, PlayerStats playerStats)
     {
-        _playerStats = playerStats;
-        _planks = planks;
         _caret = caret;
+        _playerStats = playerStats;
+    }
+
+    public void InitLevel(List<Plank> planks)
+    {
+        _planks = planks;
         _balls = new List<Ball>();
         _balls.Add(_caret.FirstBall);
 
@@ -26,8 +30,7 @@ public class Level
     private void HandlePlankDestroy(Plank plank)
     {
         _planks.Remove(plank);
-        
-        _playerStats.AddPoints(PointsPerPlank);
+        _playerStats.AddPoints(plank.points);
 
         if (_planks.Count == 0)
             HandleLevelComplete();
@@ -48,6 +51,7 @@ public class Level
         if (_playerStats.AttemptsLeft == 0)
         {
             UnsubscribeEvents();    
+            SceneManager.LoadScene(SceneName.MainMenuScene);
         }
         else
         {
@@ -58,6 +62,7 @@ public class Level
     private void HandleLevelComplete()
     {
         UnsubscribeEvents();
+        SceneManager.LoadScene(SceneName.GameScene);
     }
 
     private void UnsubscribeEvents()

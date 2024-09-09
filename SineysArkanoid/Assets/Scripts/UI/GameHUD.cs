@@ -1,3 +1,4 @@
+using System;
 using Reflex.Attributes;
 using TMPro;
 using UnityEngine;
@@ -16,6 +17,12 @@ public class GameHUD : MonoBehaviour
         
         OnPointsChanged();
         OnAttemptsAmountChanged();
+    }
+
+    private void OnDestroy()
+    {
+        _playerStats.OnAttemptLost -= OnAttemptsAmountChanged;
+        _playerStats.OnPointsChanged -= OnPointsChanged;
     }
 
     private void OnPointsChanged()

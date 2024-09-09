@@ -47,6 +47,6 @@ public class LevelSetup : MonoBehaviour
             }
         }
 
-        _level.InitLevel(planks, _caret, _playerStats);
+        _level.InitLevel(planks);//, _caret, _playerStats);
     }
 }

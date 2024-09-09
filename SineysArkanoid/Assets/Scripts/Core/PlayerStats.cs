@@ -16,8 +16,7 @@ public class PlayerStats
 
     public PlayerStats()
     {
-        _points = DefaultPoints;
-        _attemptsLeft = DefaultAttempts;
+        Reset();
     }
     
     public void SpendAttempt()
@@ -32,5 +31,11 @@ public class PlayerStats
         _points += points;
         
         OnPointsChanged?.Invoke();
+    }
+
+    public void Reset()
+    {
+        _points = DefaultPoints;
+        _attemptsLeft = DefaultAttempts;
     }
 }
