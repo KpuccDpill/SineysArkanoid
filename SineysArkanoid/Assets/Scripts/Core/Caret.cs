@@ -6,6 +6,8 @@ public class Caret : MonoBehaviour
     [Inject] private Ball _firstBall;
     public Ball FirstBall => _firstBall;
 
+    [Inject] private GameHUD _gameHud;
+
     private Vector3 _defaultFirstBallPosition;
 
     private void Awake()
@@ -23,6 +25,7 @@ public class Caret : MonoBehaviour
             if (Input.GetMouseButtonDown(0))
             {
                 _firstBall.Activate();
+                _gameHud.HideHintText();
             }
         }
     }

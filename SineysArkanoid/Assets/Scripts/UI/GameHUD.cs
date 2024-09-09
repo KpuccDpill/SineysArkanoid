@@ -1,4 +1,3 @@
-using System;
 using Reflex.Attributes;
 using TMPro;
 using UnityEngine;
@@ -7,6 +6,7 @@ public class GameHUD : MonoBehaviour
 {
     [SerializeField] private TextMeshProUGUI pointsText;
     [SerializeField] private TextMeshProUGUI livesText;
+    [SerializeField] private GameObject hintText;
 
     [Inject] private PlayerStats _playerStats;
 
@@ -23,6 +23,11 @@ public class GameHUD : MonoBehaviour
     {
         _playerStats.OnAttemptLost -= OnAttemptsAmountChanged;
         _playerStats.OnPointsChanged -= OnPointsChanged;
+    }
+
+    public void HideHintText()
+    {
+        hintText.SetActive(false);
     }
 
     private void OnPointsChanged()

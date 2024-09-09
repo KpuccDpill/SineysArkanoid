@@ -600,6 +600,50 @@ Transform:
   m_Children: []
   m_Father: {fileID: 0}
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
+--- !u!1 &1268451532
+GameObject:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  serializedVersion: 6
+  m_Component:
+  - component: {fileID: 1268451533}
+  - component: {fileID: 1268451534}
+  m_Layer: 0
+  m_Name: GameExit
+  m_TagString: Untagged
+  m_Icon: {fileID: 0}
+  m_NavMeshLayer: 0
+  m_StaticEditorFlags: 0
+  m_IsActive: 1
+--- !u!4 &1268451533
+Transform:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 1268451532}
+  serializedVersion: 2
+  m_LocalRotation: {x: 0, y: 0, z: 0, w: 1}
+  m_LocalPosition: {x: 546.0043, y: 257.54642, z: 3.3842075}
+  m_LocalScale: {x: 1, y: 1, z: 1}
+  m_ConstrainProportionsScale: 0
+  m_Children: []
+  m_Father: {fileID: 0}
+  m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
+--- !u!114 &1268451534
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 1268451532}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 4c15547284b4ff24dab8f4e816f555ee, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
 --- !u!1 &1544698581
 GameObject:
   m_ObjectHideFlags: 0
@@ -1028,8 +1072,8 @@ RectTransform:
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
   m_AnchorMin: {x: 0.5, y: 0.5}
   m_AnchorMax: {x: 0.5, y: 0.5}
-  m_AnchoredPosition: {x: 0, y: -260}
-  m_SizeDelta: {x: 900, y: 163}
+  m_AnchoredPosition: {x: 0, y: -213.88806}
+  m_SizeDelta: {x: 900, y: 255.2238}
   m_Pivot: {x: 0.5, y: 0.5}
 --- !u!114 &1674711606
 MonoBehaviour:
@@ -1054,7 +1098,9 @@ MonoBehaviour:
   m_text: "\u0414\u043B\u044F \u0443\u043F\u0440\u0430\u0432\u043B\u0435\u043D\u0438\u044F
     \u0438\u0441\u043F\u043E\u043B\u044C\u0437\u0443\u0439\u0442\u0435 \u043C\u044B\u0448\u044C.
     \u041A\u0430\u0440\u0435\u0442\u043A\u0430 \u0431\u0443\u0434\u0435\u0442 \u0441\u043B\u0435\u0434\u043E\u0432\u0430\u0442\u044C
-    \u0437\u0430 \u043D\u0435\u0439."
+    \u0437\u0430 \u043D\u0435\u0439.\n\n\u0414\u043B\u044F \u0432\u044B\u0445\u043E\u0434\u0430
+    \u0438\u0437 \u0438\u0433\u0440\u044B \u043D\u0430\u0436\u043C\u0438\u0442\u0435
+    \u043A\u043D\u043E\u043F\u043A\u0443 ESC"
   m_isRightToLeft: 0
   m_fontAsset: {fileID: 11400000, guid: 73653d618dc683849abcb4d061acd356, type: 2}
   m_sharedMaterial: {fileID: 4372649874378925677, guid: 73653d618dc683849abcb4d061acd356, type: 2}
@@ -1185,3 +1231,4 @@ SceneRoots:
   - {fileID: 1544698584}
   - {fileID: 2092240988}
   - {fileID: 1641249832}
+  - {fileID: 1268451533}
