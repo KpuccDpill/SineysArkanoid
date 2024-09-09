@@ -47,6 +47,7 @@ public class LevelSetup : MonoBehaviour
                     Plank plank = Instantiate(plankPrefab, new Vector3(firstPlankPosX + plankXSize * j, 
                             plankPosY + transform.position.y), Quaternion.identity, transform);
 
+                    plank.SetupPlank(Random.Range(1, 3));
                     planks.Add(plank);
                 }
             }

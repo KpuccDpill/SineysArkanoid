@@ -90,7 +90,7 @@ public class Ball : MonoBehaviour
         
         if (plank != null)
         {
-            plank.DestroyPlank();
+            plank.TakeHit();
         }
     }
 
