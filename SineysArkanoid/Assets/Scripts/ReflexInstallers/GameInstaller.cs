@@ -10,6 +10,7 @@ public class GameInstaller : MonoBehaviour, IInstaller
     {
         containerBuilder.AddSingleton(caret);
         containerBuilder.AddSingleton(firstBall);
-        containerBuilder.Build();
+        containerBuilder.AddScoped(_ => new PlayerStats());
+        containerBuilder.AddScoped(_ => new Level());
     }
 }

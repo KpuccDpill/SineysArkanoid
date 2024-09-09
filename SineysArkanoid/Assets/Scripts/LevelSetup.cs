@@ -6,7 +6,9 @@ public class LevelSetup : MonoBehaviour
 {
     [SerializeField] private Plank plankPrefab;
 
-    [Inject] private Caret _caret; 
+    [Inject] private Caret _caret;
+    [Inject] private Level _level;
+    [Inject] private PlayerStats _playerStats;
 
     private const float PlankSizeX = 5;
     private const float PlankSizeY = 2;
@@ -45,7 +47,6 @@ public class LevelSetup : MonoBehaviour
             }
         }
 
-        Level newLevel = new Level();
-        newLevel.InitLevel(planks, _caret);
+        _level.InitLevel(planks, _caret, _playerStats);
     }
 }

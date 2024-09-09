@@ -1,23 +1,23 @@
+using System;
 using System.Collections.Generic;
 using Reflex.Attributes;
 
 public class Level
 {
+    private PlayerStats _playerStats;
+    private Caret _caret;
     private List<Plank> _planks;
-    [Inject] private Caret _caret;
     private List<Ball> _balls;
-    private int _attemptsLeft;
     
-    private const int DefaultAttemptsAmount = 3;
+    private const int PointsPerPlank = 100;
 
-    public void InitLevel(List<Plank> planks, Caret caret)
+    public void InitLevel(List<Plank> planks, Caret caret, PlayerStats playerStats)
     {
+        _playerStats = playerStats;
         _planks = planks;
         _caret = caret;
         _balls = new List<Ball>();
         _balls.Add(_caret.FirstBall);
-
-        _attemptsLeft = DefaultAttemptsAmount;
 
         Plank.OnPlankDestroyed += HandlePlankDestroy;
         Ball.OnBallDestroy += HandleBallDestroy;
@@ -26,6 +26,8 @@ public class Level
     private void HandlePlankDestroy(Plank plank)
     {
         _planks.Remove(plank);
+        
+        _playerStats.AddPoints(PointsPerPlank);
 
         if (_planks.Count == 0)
             HandleLevelComplete();
@@ -41,9 +43,9 @@ public class Level
 
     private void HandleLevelFail()
     {
-        _attemptsLeft--;
+        _playerStats.SpendAttempt();
 
-        if (_attemptsLeft == 0)
+        if (_playerStats.AttemptsLeft == 0)
         {
             UnsubscribeEvents();    
         }
