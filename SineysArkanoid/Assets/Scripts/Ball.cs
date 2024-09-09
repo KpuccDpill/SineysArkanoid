@@ -3,10 +3,9 @@ using UnityEngine;
 [RequireComponent(typeof(Rigidbody2D))]
 public class Ball : MonoBehaviour
 {
-    public bool IsActive { get; set; }
-    
     [SerializeField] private float speed;
     
+    private bool _isActive;
     private Rigidbody2D _rigidbody2D;
     private Vector3 _direction;
     private bool _changedDirectionThisFrame;
@@ -19,6 +18,9 @@ public class Ball : MonoBehaviour
 
     private void OnCollisionEnter2D(Collision2D collision)
     {
+        if (!_isActive)
+            return;
+        
         if (collision.collider.GetComponent<Destroyer>() != null)
         {
             gameObject.SetActive(false);
@@ -89,10 +91,17 @@ public class Ball : MonoBehaviour
 
     private void FixedUpdate()
     {
-        if (IsActive)
+        if (_isActive)
         {
             _rigidbody2D.MovePosition(transform.position + _direction.normalized * speed);
             _changedDirectionThisFrame = false;
         }
+    }
+
+    public void Activate()
+    {
+        _isActive = true;
+        _direction = new Vector3(1, 1);
+        transform.parent = null;
     }
 }

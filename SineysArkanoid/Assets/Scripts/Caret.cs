@@ -20,8 +20,7 @@ public class Caret : MonoBehaviour
             
             if (Input.GetMouseButtonDown(0))
             {
-                firstBall.transform.parent = null;
-                firstBall.IsActive = true;
+                firstBall.Activate();
                 firstBall = null;
             }
         }
